@@ -42,6 +42,8 @@
 		2FF6110827A6DF1F000D4A8B /* CharacterLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FF6110727A6DF1F000D4A8B /* CharacterLocation.swift */; };
 		2FF6110A27A6E1AA000D4A8B /* Alignment+Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FF6110927A6E1AA000D4A8B /* Alignment+Custom.swift */; };
 		2FF6112527A70B2C000D4A8B /* ProvidedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FF6112427A70B2C000D4A8B /* ProvidedData.swift */; };
+		59A5AF722809DB3500554435 /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = 59A5AF712809DB3500554435 /* Apollo */; };
+		59FF198D280AEBF200335E94 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FF198C280AEBF200335E94 /* API.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -81,6 +83,10 @@
 		2FF6110727A6DF1F000D4A8B /* CharacterLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterLocation.swift; sourceTree = "<group>"; };
 		2FF6110927A6E1AA000D4A8B /* Alignment+Custom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Alignment+Custom.swift"; sourceTree = "<group>"; };
 		2FF6112427A70B2C000D4A8B /* ProvidedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProvidedData.swift; sourceTree = "<group>"; };
+		59906C542809D96D00DBD96B /* LectureREST.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = LectureREST.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		59906C552809DA6C00DBD96B /* LectureGraphQL.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = LectureGraphQL.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		59FF1989280AEA9C00335E94 /* Characters.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = Characters.graphql; sourceTree = "<group>"; };
+		59FF198C280AEBF200335E94 /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +95,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2FF610F427A60FCF000D4A8B /* SDWebImageSwiftUI in Frameworks */,
+				59A5AF722809DB3500554435 /* Apollo in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,8 +105,9 @@
 		2FF6107A27A5A74E000D4A8B = {
 			isa = PBXGroup;
 			children = (
-				2FF6108527A5A74E000D4A8B /* RickAndMorty */,
+				59906C532809D91700DBD96B /* Playgrounds */,
 				2FF6108427A5A74E000D4A8B /* Products */,
+				2FF6108527A5A74E000D4A8B /* RickAndMorty */,
 			);
 			sourceTree = "<group>";
 		};
@@ -115,9 +123,10 @@
 			isa = PBXGroup;
 			children = (
 				2FF610E927A5F5BA000D4A8B /* Info.plist */,
-				2FF6112127A70608000D4A8B /* App */,
 				2FF6109427A5A77B000D4A8B /* API */,
+				2FF6112127A70608000D4A8B /* App */,
 				2FF610B827A5D3BA000D4A8B /* DI */,
+				59FF1988280AE9F400335E94 /* GraphQL */,
 				2FF610BD27A5D4DA000D4A8B /* Logger */,
 				2FF6109827A5A7C2000D4A8B /* Model */,
 				2FF6108C27A5A74F000D4A8B /* Preview Content */,
@@ -289,6 +298,24 @@
 			path = App;
 			sourceTree = "<group>";
 		};
+		59906C532809D91700DBD96B /* Playgrounds */ = {
+			isa = PBXGroup;
+			children = (
+				59906C552809DA6C00DBD96B /* LectureGraphQL.playground */,
+				59906C542809D96D00DBD96B /* LectureREST.playground */,
+			);
+			path = Playgrounds;
+			sourceTree = "<group>";
+		};
+		59FF1988280AE9F400335E94 /* GraphQL */ = {
+			isa = PBXGroup;
+			children = (
+				59FF198C280AEBF200335E94 /* API.swift */,
+				59FF1989280AEA9C00335E94 /* Characters.graphql */,
+			);
+			path = GraphQL;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -296,6 +323,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2FF6109127A5A74F000D4A8B /* Build configuration list for PBXNativeTarget "RickAndMorty" */;
 			buildPhases = (
+				59FF198B280AEAF300335E94 /* Apollo */,
 				2FF6107F27A5A74E000D4A8B /* Sources */,
 				2FF6108027A5A74E000D4A8B /* Frameworks */,
 				2FF6108127A5A74E000D4A8B /* Resources */,
@@ -307,6 +335,7 @@
 			name = RickAndMorty;
 			packageProductDependencies = (
 				2FF610F327A60FCF000D4A8B /* SDWebImageSwiftUI */,
+				59A5AF712809DB3500554435 /* Apollo */,
 			);
 			productName = RickAndMorty;
 			productReference = 2FF6108327A5A74E000D4A8B /* RickAndMorty.app */;
@@ -338,6 +367,7 @@
 			mainGroup = 2FF6107A27A5A74E000D4A8B;
 			packageReferences = (
 				2FF610F227A60FCF000D4A8B /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
+				59A5AF702809DB3500554435 /* XCRemoteSwiftPackageReference "apollo-ios" */,
 			);
 			productRefGroup = 2FF6108427A5A74E000D4A8B /* Products */;
 			projectDirPath = "";
@@ -361,6 +391,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		59FF198B280AEAF300335E94 /* Apollo */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = Apollo;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Don't run this during index builds\nif [ $ACTION = \"indexbuild\" ]; then exit 0; fi\n\n# Go to the build root and search up the chain to find the Derived Data Path where the source packages are checked out.\nDERIVED_DATA_CANDIDATE=\"${BUILD_ROOT}\"\n\nwhile ! [ -d \"${DERIVED_DATA_CANDIDATE}/SourcePackages\" ]; do\n  if [ \"${DERIVED_DATA_CANDIDATE}\" = / ]; then\n    echo >&2 \"error: Unable to locate SourcePackages directory from BUILD_ROOT: '${BUILD_ROOT}'\"\n    exit 1\n  fi\n\n  DERIVED_DATA_CANDIDATE=\"$(dirname \"${DERIVED_DATA_CANDIDATE}\")\"\ndone\n\n# Grab a reference to the directory where scripts are checked out\nSCRIPT_PATH=\"${DERIVED_DATA_CANDIDATE}/SourcePackages/checkouts/apollo-ios/scripts\"\n\nif [ -z \"${SCRIPT_PATH}\" ]; then\n    echo >&2 \"error: Couldn't find the CLI script in your checked out SPM packages; make sure to add the framework to your project.\"\n    exit 1\nfi\n\ncd \"${SRCROOT}/${TARGET_NAME}/GraphQL\"\n\n\"${SCRIPT_PATH}\"/run-bundled-codegen.sh schema:download --endpoint=\"https://rickandmortyapi.com/graphql\"\n\n\"${SCRIPT_PATH}\"/run-bundled-codegen.sh codegen:generate --target=swift --includes=./**/*.graphql --localSchemaFile=\"schema.json\" API.swift\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		2FF6107F27A5A74E000D4A8B /* Sources */ = {
@@ -390,6 +441,7 @@
 				2FF610D627A5EDDD000D4A8B /* OnFirstAppearViewModifier.swift in Sources */,
 				2FF610A227A5A8CB000D4A8B /* APIError.swift in Sources */,
 				2FF610FE27A62013000D4A8B /* CharacterDetailStore.swift in Sources */,
+				59FF198D280AEBF200335E94 /* API.swift in Sources */,
 				2FF610F727A6131E000D4A8B /* CharacterDetailView.swift in Sources */,
 				2FF610DE27A5EEEC000D4A8B /* Location.swift in Sources */,
 				2FF610BF27A5D4E4000D4A8B /* Logger.swift in Sources */,
@@ -611,6 +663,14 @@
 				minimumVersion = 2.0.0;
 			};
 		};
+		59A5AF702809DB3500554435 /* XCRemoteSwiftPackageReference "apollo-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apollographql/apollo-ios";
+			requirement = {
+				kind = exactVersion;
+				version = 0.51.2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -618,6 +678,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 2FF610F227A60FCF000D4A8B /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
 			productName = SDWebImageSwiftUI;
+		};
+		59A5AF712809DB3500554435 /* Apollo */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 59A5AF702809DB3500554435 /* XCRemoteSwiftPackageReference "apollo-ios" */;
+			productName = Apollo;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
