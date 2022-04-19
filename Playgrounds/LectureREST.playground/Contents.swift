@@ -10,16 +10,16 @@ import UIKit
 
 // TODO: REST 4 - Show how to update headers
 
-// TODO: REST 5 - Show how to update body
+// TODO: REST 5 - URLSession call (print data)
 
-// TODO: REST 6 - URLSession call (print data)
+// TODO: REST 6 - Handle status code (create enum for it)
 
-// TODO: REST 7 - Handle status code (create enum for it)
+// TODO: REST 7 - Create Decodable model
 
-// TODO: REST 8 - Create Decodable model
+// TODO: REST 8 - Parse model
 
-// TODO: REST 9 - Parse model
+// TODO: REST 9 - Switch URL with URLComponents and add query parameters
 
-// TODO: REST 10 - Switch URL with URLComponents and add query parameters
+// TODO: REST 10 - Show how to update body
 
-// TODO: REST 11 - Progress of URLSession with async bytes
+// TODO: REST 11 - Post example
