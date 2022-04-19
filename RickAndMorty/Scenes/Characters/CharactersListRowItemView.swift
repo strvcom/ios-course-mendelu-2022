@@ -13,7 +13,6 @@ struct CharactersListRowItemView: View {
     
     var body: some View {
         HStack(alignment: .top, spacing: 16) {
-            // TODO: Show
             WebImage(url: character.imageUrl)
                 .placeholder {
                     ProgressView()

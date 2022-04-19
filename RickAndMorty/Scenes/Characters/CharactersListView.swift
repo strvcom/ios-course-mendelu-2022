@@ -91,9 +91,10 @@ struct CharactersListView: View {
 
 // MARK: - Actions
 private extension CharactersListView {
-    // TODO: 3) load async data
     func load() {
-        store.load()
+        Task {
+            await store.load()
+        }
     }
     
     func toggleMode() {

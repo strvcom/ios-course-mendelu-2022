@@ -38,7 +38,6 @@ import CoreData
 // MARK: - Actions
 extension CharacterDetailStore {
     
-    // TODO: next class
     func load() async {
 
     }
