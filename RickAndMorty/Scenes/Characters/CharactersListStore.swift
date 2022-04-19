@@ -7,7 +7,7 @@
 
 import Foundation
 
-// TODO: 4) show warning, solve by actor
+@MainActor
 final class CharactersListStore: ObservableObject {
     enum State: Equatable {
         case initial
@@ -16,32 +16,39 @@ final class CharactersListStore: ObservableObject {
         case failed
     }
     
-    // TODO: 6) injected api manager
     @Published var state: State = .initial
     @Published var characters: [Character] = .init()
     
     private var currentResponseInfo: PaginationInfo? = nil
+    @Injected private var apiManager: APIManaging
 }
 
 // MARK: - Actions
 extension CharactersListStore {
-    // TODO: 1) write async method
-    /// state = .loading
-    func load() {
-        state = .finished(loadingMore: false)
-        characters.append(Character.mock)
+    func load() async {
+        state = .loading
+        
+        await fetch()
     }
 }
 
 // MARK: - Fetching
 private extension CharactersListStore {
     
-    // TODO: 2) write async method which loads data from REST API
-    /* Steps
-        1) url we use "https://rickandmortyapi.com/api/character"
-        2) url session
-        3) receive data
-        4) validate response
-        5) parse data
-     */
+    func fetch() async {
+        let urlString = "https://rickandmortyapi.com/api/character"
+        
+        do {
+            
+            let object: PaginatedResponse<Character> = try await apiManager.request(urlString: urlString)
+            
+            characters += object.results
+            
+            state = .finished(loadingMore: false)
+            
+        } catch {
+            Logger.log("UrlSessionError \(error)")
+            state = .failed
+        }
+    }
 }

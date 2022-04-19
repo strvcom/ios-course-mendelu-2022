@@ -7,7 +7,7 @@
 
 import Foundation
 
-// TODO: Show
+// Custom error handling
 enum APIError: Error, LocalizedError {
     case invalidUrlComponents
     case noResponse

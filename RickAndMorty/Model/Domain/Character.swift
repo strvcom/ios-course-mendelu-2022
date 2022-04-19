@@ -6,7 +6,7 @@
 //
 
 import Foundation
-// TODO: Show
+
 struct Character {
     let id: Int
     let name: String
@@ -45,7 +45,6 @@ extension Character: Decodable {}
 
 // MARK: - Mock
 #if DEBUG
-// TODO: Show
 extension Character {
     static let mock: Character = .init(
         id: 1,
