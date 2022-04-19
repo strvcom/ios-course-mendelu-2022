@@ -1,7 +1,26 @@
-query Characters {
-  characters {
-    results {
-      name
+# Opration name + default parameter
+query Characters($page: Int = 0) {
+    characters(page: $page) { # argument
+        results {
+            name # Fields
+        }
     }
+}
+
+# Operation name + required parameters
+query CharactersWithAliases($firstPage: Int!, $secondPage: Int!) {
+    # Aliases
+    firstPageCharacters: characters(page: $firstPage) {
+        ... CharactersResult
+    }
+    
+    secondPageCharacters: characters(page: $secondPage) {
+        ... CharactersResult
+    }
+}
+
+fragment CharactersResult on Characters {
+    results {
+    name
   }
 }
