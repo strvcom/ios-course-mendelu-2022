@@ -14,7 +14,7 @@ struct CharacterDetailView: View {
     var body: some View {
         ZStack(alignment: .topLeading) {
             BackgroundGradientView()
-            
+            // TODO: Repeat explain
             switch (store.state, store.character) {
             case (.finished, .some(let character)):
                 makeContent(for: character)
