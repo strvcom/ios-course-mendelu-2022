@@ -35,6 +35,15 @@ extension Location: Identifiable {}
 extension Location: Equatable {}
 extension Location: Decodable {}
 
+// MARK: - Likes
+extension Location: Likeable {
+    static let likeType: LikeType = .location
+    
+    var likeItemId: Int64 {
+        .init(id)
+    }
+}
+
 // MARK: - Mock
 #if DEBUG
 extension Location {

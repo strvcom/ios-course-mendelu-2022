@@ -88,6 +88,15 @@ extension Episode: Decodable {
     }
 }
 
+// MARK: - Likes
+extension Episode: Likeable {
+    static let likeType: LikeType = .episode
+    
+    var likeItemId: Int64 {
+        .init(id)
+    }
+}
+
 // MARK: - Mock
 #if DEBUG
 extension Episode {

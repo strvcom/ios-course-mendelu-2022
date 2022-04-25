@@ -52,5 +52,9 @@ extension DIContainer {
         register(APIManaging.self, cached: true) {
             APIManager()
         }
+        
+        register(CoreDataManaging.self, cached: true) {
+            CoreDataManager()
+        }
     }
 }

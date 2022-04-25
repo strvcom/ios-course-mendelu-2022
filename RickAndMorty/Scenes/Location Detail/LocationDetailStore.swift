@@ -1,5 +1,5 @@
 //
-//  CharacterDetailStore.swift
+//  LocationDetailStore.swift
 //  RickAndMorty
 //
 //  Created by Jan Kaltoun on 30.01.2022.
@@ -7,7 +7,7 @@
 
 import CoreData
 
-@MainActor final class CharacterDetailStore: NSObject, ObservableObject {
+@MainActor final class LocationDetailStore: NSObject, ObservableObject {
     enum State: Equatable {
         case initial
         case loading
@@ -19,21 +19,21 @@ import CoreData
     @Injected nonisolated var coreDataManager: CoreDataManaging
     
     @Published var state: State = .initial
-    @Published var character: Character?
-    @Published var episodes: [Episode] = .init()
+    @Published var location: Location?
+    @Published var residents: [Character] = .init()
     @Published var isLiked: Bool = false
     
     lazy nonisolated var fetchedResultsController: NSFetchedResultsController<Like> = makeFetchedResultsController()
     
-    let providedData: ProvidedData<Character>
+    let providedData: ProvidedData<Location>
     
-    init(providedData: ProvidedData<Character>) {
+    init(providedData: ProvidedData<Location>) {
         self.providedData = providedData
         
         super.init()
         
-        if case let .entity(character) = providedData {
-            self.character = character
+        if case let .entity(location) = providedData {
+            self.location = location
             
             state = .finished
         }
@@ -43,23 +43,23 @@ import CoreData
 }
 
 // MARK: - Actions
-extension CharacterDetailStore {
+extension LocationDetailStore {
     func load() async {
         if case let .id(id) = providedData {
-            await fetchCharacter(with: id)
+            await fetchLocation(with: id)
         }
         
-        await fetchEpisodes()
+        await fetchCharacters()
     }
 }
 
 // MARK: - Fetching
-private extension CharacterDetailStore {
-    func fetchCharacter(with id: Character.ID) async {
-        let endpoint = CharactersRouter.getCharacter(id: id)
+extension LocationDetailStore {
+    private func fetchLocation(with id: Location.ID) async {
+        let endpoint = LocationsRouter.getLocation(id: id)
         
         do {
-            character = try await apiManager.request(endpoint)
+            location = try await apiManager.request(endpoint)
             
             state = .finished
         } catch {
@@ -69,44 +69,44 @@ private extension CharacterDetailStore {
         }
     }
     
-    func fetchEpisodes() async {
-        guard let character = character else {
+    private func fetchCharacters() async {
+        guard let location = location else {
             return
         }
         
         do {
-            try await withThrowingTaskGroup(of: Episode.self) { [weak self] group in
+            try await withThrowingTaskGroup(of: Character.self) { [weak self] group in
                 guard let self = self else {
                     return
                 }
                 
-                for episodeId in character.episodeIds {
+                for residentId in location.residentIds {
                     group.addTask {
-                        let endpoint = EpisodesRouter.getEpisode(id: episodeId)
+                        let endpoint = CharactersRouter.getCharacter(id: residentId)
                         
                         return try await self.apiManager.request(endpoint)
                     }
                 }
                 
-                var episodes: [Episode] = .init()
+                var residents: [Character] = .init()
                 
-                for try await episode in group {
-                    episodes.append(episode)
+                for try await resident in group {
+                    residents.append(resident)
                 }
                 
-                self.episodes = episodes
+                self.residents = residents
             }
         } catch {
             Logger.log("\(error)", .error)
-            // List of episodes is not *that* important, so we'll ignore any errors
+            // List of characters is not *that* important, so we'll ignore any errors
         }
     }
 }
 
 // MARK: - Likes
-extension CharacterDetailStore: EntityLiking {
-    var likeableEntity: Character? {
-        character
+extension LocationDetailStore: EntityLiking {
+    var likeableEntity: Location? {
+        location
     }
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {

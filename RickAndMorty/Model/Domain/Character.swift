@@ -43,6 +43,15 @@ extension Character: Identifiable {}
 extension Character: Equatable {}
 extension Character: Decodable {}
 
+// MARK: - Likes
+extension Character: Likeable {
+    static let likeType: LikeType = .character
+    
+    var likeItemId: Int64 {
+        .init(id)
+    }
+}
+
 // MARK: - Mock
 #if DEBUG
 extension Character {

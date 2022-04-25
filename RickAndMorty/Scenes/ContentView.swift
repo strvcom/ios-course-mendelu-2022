@@ -9,10 +9,47 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        NavigationView {
-            CharactersListView()
+        TabView {
+            NavigationView {
+                CharactersListView()
+            }
+            .navigationViewStyle(StackNavigationViewStyle())
+            .tabItem {
+                Image(systemName: "person.2")
+                
+                Text("Characters")
+            }
+            
+            NavigationView {
+                EpisodesListView()
+            }
+            .navigationViewStyle(StackNavigationViewStyle())
+            .tabItem {
+                Image(systemName: "film")
+                
+                Text("Episodes")
+            }
+            
+            NavigationView {
+                LocationsListView()
+            }
+            .navigationViewStyle(StackNavigationViewStyle())
+            .tabItem {
+                Image(systemName: "globe.europe.africa")
+                
+                Text("Locations")
+            }
+            
+            NavigationView {
+                LikesView()
+            }
+            .navigationViewStyle(StackNavigationViewStyle())
+            .tabItem {
+                Image(systemName: "heart.text.square")
+                
+                Text("Likes")
+            }
         }
-        .navigationViewStyle(StackNavigationViewStyle())
         .foregroundColor(.appTextBody)
         .preferredColorScheme(.none)
     }

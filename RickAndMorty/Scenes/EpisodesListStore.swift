@@ -1,5 +1,5 @@
 //
-//  CharactersListStore.swift
+//  EpisodesListStore.swift
 //  RickAndMorty
 //
 //  Created by Jan Kaltoun on 29.01.2022.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-@MainActor final class CharactersListStore: ObservableObject {
+@MainActor final class EpisodesListStore: ObservableObject {
     enum State: Equatable {
         case initial
         case loading
@@ -18,21 +18,21 @@ import Foundation
     @Injected private var apiManager: APIManaging
     
     @Published var state: State = .initial
-    @Published var characters: [Character] = .init()
+    @Published var episodes: [Episode] = .init()
     
     private var currentResponseInfo: PaginationInfo? = nil
 }
 
 // MARK: - Actions
-extension CharactersListStore {
+extension EpisodesListStore {
     func load() async {
         state = .loading
         
         await fetch()
     }
     
-    func loadMoreIfNeeded(for character: Character) async {
-        guard character == characters.last else {
+    func loadMoreIfNeeded(for episode: Episode) async {
+        guard episode == episodes.last else {
             return
         }
         
@@ -47,15 +47,15 @@ extension CharactersListStore {
 }
 
 // MARK: - Fetching
-private extension CharactersListStore {
-    func fetch(page: Int? = nil) async {
-        let endpoint = CharactersRouter.getCharacters(page: page)
+extension EpisodesListStore {
+    private func fetch(page: Int? = nil) async {
+        let endpoint = EpisodesRouter.getEpisodes(page: page)
         
         do {
-            let response: PaginatedResponse<Character> = try await apiManager.request(endpoint)
+            let response: PaginatedResponse<Episode> = try await apiManager.request(endpoint)
             
             currentResponseInfo = response.info
-            characters += response.results
+            episodes += response.results
             
             state = .finished(loadingMore: false)
         } catch {

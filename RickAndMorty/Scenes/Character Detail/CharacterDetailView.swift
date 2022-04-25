@@ -14,7 +14,7 @@ struct CharacterDetailView: View {
     var body: some View {
         ZStack(alignment: .topLeading) {
             BackgroundGradientView()
-            // TODO: Repeat explain
+            
             switch (store.state, store.character) {
             case (.finished, .some(let character)):
                 makeContent(for: character)
@@ -25,6 +25,15 @@ struct CharacterDetailView: View {
             }
         }
         .navigationTitle(store.character?.name ?? "Loading...")
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button(action: toggleLike) {
+                    Image(
+                        systemName: store.isLiked ? "heart.fill" : "heart"
+                    )
+                }
+            }
+        }
         .onFirstAppear(perform: load)
     }
 }
@@ -40,7 +49,13 @@ private extension CharacterDetailView {
             
             VStack(spacing: 8) {
                 ForEach(store.episodes) { episode in
-                    CharacterDetailEpisodeView(episode: episode)
+                    NavigationLink(
+                        destination: EpisodeDetailView(
+                            store: .init(providedData: .entity(episode))
+                        )
+                    ) {
+                        CharacterDetailEpisodeView(episode: episode)
+                    }
                 }
             }
         }
@@ -111,21 +126,45 @@ private extension CharacterDetailView {
                 Spacer()
                 
                 VStack(alignment: .horizontalInfoAlignment, spacing: 8) {
-                    HStack(alignment: .top, spacing: 8) {
+                    let originView = HStack(alignment: .top, spacing: 8) {
                         Image(systemName: "globe")
                         
                         Text(character.origin.name)
                             .multilineTextAlignment(.leading)
                             .alignmentGuide(.horizontalInfoAlignment) { $0[.leading] }
                     }
-                }
-                
-                HStack(alignment: .top, spacing: 8) {
-                    Image(systemName: "eyes")
                     
-                    Text(character.location.name)
-                        .multilineTextAlignment(.leading)
-                        .alignmentGuide(.horizontalInfoAlignment) { $0[.leading] }
+                    if let locationId = character.origin.locationId {
+                        NavigationLink(
+                            destination: LocationDetailView(
+                                store: .init(providedData: .id(locationId))
+                            )
+                        ) {
+                            originView
+                        }
+                    } else {
+                        originView
+                    }
+                    
+                    let locationView = HStack(alignment: .top, spacing: 8) {
+                        Image(systemName: "eyes")
+                        
+                        Text(character.location.name)
+                            .multilineTextAlignment(.leading)
+                            .alignmentGuide(.horizontalInfoAlignment) { $0[.leading] }
+                    }
+                    
+                    if let locationId = character.location.locationId {
+                        NavigationLink(
+                            destination: LocationDetailView(
+                                store: .init(providedData: .id(locationId))
+                            )
+                        ) {
+                            locationView
+                        }
+                    } else {
+                        locationView
+                    }
                 }
             }
             .font(.appItemDescription)
@@ -139,6 +178,12 @@ private extension CharacterDetailView {
     func load() {
         Task {
             await store.load()
+        }
+    }
+    
+    func toggleLike() {
+        Task {
+            await store.toggleLike()
         }
     }
 }

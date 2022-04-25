@@ -7,40 +7,42 @@
 
 import Foundation
 
-// TODO: 3) create HttpMethod, HttpHeader files in utilities folder
-// TODO: 4) define Endpoint protocol + default implementation
-// TODO: 5) create routers folder + router for characters & episodes
-// TODO: 6) change api managing to Endpoint parameters + update app
-// TODO: Extra) create service layer as in template in case we have time (separating of concept, we don't care about service type - cache, networking or both - adapted service
-
-
-//// MARK: - Protocol
+// MARK: - Protocol
 protocol APIManaging {
-    func request<T: Decodable>(urlString: String) async throws -> T
+    func request<T: Decodable>(_ endpoint: Endpoint) async throws -> T
 }
 
 // MARK: - Implementation
-class APIManager: APIManaging {
-    
+final class APIManager: APIManaging {
     private lazy var urlSession: URLSession = {
-        let configuration = URLSessionConfiguration.default
-        configuration.timeoutIntervalForRequest = 10
-        configuration.timeoutIntervalForResource = 10
-        return URLSession(configuration: configuration)
+        let config = URLSessionConfiguration.default
+        config.timeoutIntervalForRequest = 30
+        config.timeoutIntervalForResource = 30
+
+        return URLSession(configuration: config)
     }()
-    
-    // TODO: 2) Add DateFormatter to JsonDecoder
-    /// explain formatter & decoder
-    private lazy var decoder = JSONDecoder()
-    
-    func request<T>(urlString: String) async throws -> T where T : Decodable {
-        guard let url = URL(string: urlString) else {
-            throw APIError.invalidUrlComponents
-        }
+
+    private lazy var dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+
+        return formatter
+    }()
+
+    private lazy var decoder: JSONDecoder = {
+        let decoder = JSONDecoder()
+
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        decoder.dateDecodingStrategy = .formatted(dateFormatter)
+
+        return decoder
+    }()
+
+    private func request(_ endpoint: Endpoint) async throws -> Data {
+        let request: URLRequest = try endpoint.asRequest()
         
-        let request = URLRequest(url: url)
-        Logger.log("Request for \(request.description)")
-        
+        Logger.log("🚀 Request for \"\(request.description)\"")
+
         let (data, response) = try await urlSession.data(for: request)
         
         guard let httpResponse = response as? HTTPURLResponse else {
@@ -60,9 +62,14 @@ class APIManager: APIManaging {
             \(body)
             """)
         }
-        
+
+        return data
+    }
+
+    func request<T: Decodable>(_ endpoint: Endpoint) async throws -> T {
+        let data = try await request(endpoint)
         let object = try decoder.decode(T.self, from: data)
-        
+
         return object
     }
 }
